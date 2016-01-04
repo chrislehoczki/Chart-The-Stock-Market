@@ -3,37 +3,28 @@
 <html>
 
 	<head>
-		<title>Clementine.js - The elegant and lightweight full stack JavaScript boilerplate.</title>
+		<title>A Time Handler MicroService</title>
 		
 		<link href="/public/css/main.css" rel="stylesheet" type="text/css">
 	</head>
 
 	<header>
-		<p>Welcome, <span id="display-name"></span>!</p>
-		<a class="menu" href="/profile">Profile</a>
-		<p>|</p>
-		<a class="menu" href="/logout">Logout</a>
+
 	</header>
 
 	<body>
-		<div class="container">
-			<img src="/public/img/clementine_150.png" />
-			<br />
-			<p class="clementine-text">Clementine.js</p>
-		</div>
-	
-		<div class="container">
-			<p>You have clicked the button <span id="click-nbr"></span> times.</p>
-			<br />
-			<div class="btn-container">
-				<button type="submit" class="btn btn-add">CLICK ME!</button>
-				<button class="btn btn-delete">RESET</button>
-			</div>
-		</div>
+	<h1> Time Microservice </h1>
+	<p> Send a string with either a UNIX time or human encoded time and I'll give you back both. Just send it to this application http and put your time after a /</p>
+	<br>
+	<p> <b>Example usage:</b> </p>
+	<br>
+	<p>https://timestamp-ms.herokuapp.com/December%2015,%202015</p>
+	<p> https://timestamp-ms.herokuapp.com/1450137600 </p>
+	<br>
+	<p><b>Example output:</b></p>
+	<br>
+	<p>{ "unix": 1450137600, "natural": "December 15, 2015" }</p>
 		
-		<script type="text/javascript" src="common/ajax-functions.js"></script>
-		<script type="text/javascript" src="controllers/clickController.client.js"></script>
-		<script type="text/javascript" src="controllers/userController.client.js"></script>
 	</body>
 
 </html>

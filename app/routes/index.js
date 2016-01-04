@@ -1,57 +1,59 @@
 'use strict';
 
 var path = process.cwd();
-var ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
+var TimeHandler = require(path + '/app/controllers/timeHandler.server.js');
 
-module.exports = function (app, passport) {
+var moment = require('moment');
+moment().format();
+module.exports = function (app) {
 
-	function isLoggedIn (req, res, next) {
-		if (req.isAuthenticated()) {
-			return next();
-		} else {
-			res.redirect('/login');
-		}
-	}
-
-	var clickHandler = new ClickHandler();
-
+		
 	app.route('/')
-		.get(isLoggedIn, function (req, res) {
+		.get(function (req, res) {
 			res.sendFile(path + '/public/index.html');
 		});
-
-	app.route('/login')
+		
+	app.route('/:time')
 		.get(function (req, res) {
-			res.sendFile(path + '/public/login.html');
+			
+		//GET TIME FROM PARAM
+		var time = req.params.time;
+		
+		//START VARS AS NULL
+		var unix = null;
+		var natural = null;
+		
+		
+		//GET NATURAL AND UNIX DATES
+		var naturalDate = new moment(time)
+		var unixDate = new moment(+time*1000);
+
+		//IF UNIX
+		if (+time >= 0) {
+            unix = unixDate;
+            natural =  unixDate.format("MMMM DD, YYYY");
+		}
+		//IF NATURAL
+		if (isNaN(+time) && moment(time, "MMMM DD, YY").isValid()) {
+		    unix = naturalDate.unix();
+            natural = naturalDate.format("MMMM DD, YYYY");
+		}
+
+		//CREATE OBJ
+		var timeObj = {
+		    UNIX: unix,
+		    natural: natural
+		}
+		
+		//SEND OBJ
+		res.json(timeObj)
+		
+		
 		});
+		
+} //end of app
 
-	app.route('/logout')
-		.get(function (req, res) {
-			req.logout();
-			res.redirect('/login');
-		});
 
-	app.route('/profile')
-		.get(isLoggedIn, function (req, res) {
-			res.sendFile(path + '/public/profile.html');
-		});
-
-	app.route('/api/:id')
-		.get(isLoggedIn, function (req, res) {
-			res.json(req.user.github);
-		});
-
-	app.route('/auth/github')
-		.get(passport.authenticate('github'));
-
-	app.route('/auth/github/callback')
-		.get(passport.authenticate('github', {
-			successRedirect: '/',
-			failureRedirect: '/login'
-		}));
-
-	app.route('/api/:id/clicks')
-		.get(isLoggedIn, clickHandler.getClicks)
-		.post(isLoggedIn, clickHandler.addClick)
-		.delete(isLoggedIn, clickHandler.resetClicks);
-};
+			
+	
+		
