@@ -3,7 +3,6 @@
 
 var moment = require('moment');
 
-var datejs = require("datejs");
 
 
 

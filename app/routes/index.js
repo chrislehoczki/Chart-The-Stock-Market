@@ -3,51 +3,41 @@
 var path = process.cwd();
 var TimeHandler = require(path + '/app/controllers/timeHandler.server.js');
 
-var moment = require('moment');
-moment().format();
+//NODE MODULES
+var p = require('ua-parser');
+var get_ip = require('ipware')().get_ip;
+var requestLanguage = require('express-request-language');
+var cookieParser = require('cookie-parser');
+
 module.exports = function (app) {
+	
 
-		
+
 	app.route('/')
-		.get(function (req, res) {
-			res.sendFile(path + '/public/index.html');
-		});
-		
-	app.route('/:time')
-		.get(function (req, res) {
-			
-		//GET TIME FROM PARAM
-		var time = req.params.time;
-		
-		//START VARS AS NULL
-		var unix = null;
-		var natural = null;
-		
-		
-		//GET NATURAL AND UNIX DATES
-		var naturalDate = new moment(time)
-		var unixDate = new moment(+time*1000);
+		.get(function (req,res) {
 
-		//IF UNIX
-		if (+time >= 0) {
-            unix = unixDate;
-            natural =  unixDate.format("MMMM DD, YYYY");
-		}
-		//IF NATURAL
-		if (isNaN(+time) && moment(time, "MMMM DD, YY").isValid()) {
-		    unix = naturalDate.unix();
-            natural = naturalDate.format("MMMM DD, YYYY");
-		}
-
+		//GET BROWSER USING UA-PARSER
+		var userAgent = req.headers['user-agent'];
+		var browser = p.parseUA(userAgent).toString();
+		
+		
+		//GET LANGUAGE USING EXPRESS-LANGUAGE
+		var lang = req.language;
+		
+		
+		//GET IP ADDRESS USING GET IP
+		
+		var IP = get_ip(req).clientIp;
+      
+		
 		//CREATE OBJ
-		var timeObj = {
-		    UNIX: unix,
-		    natural: natural
+		var parsedHeader = {
+			"IP address": IP,
+			"language": lang,
+			"operating system": browser
 		}
 		
-		//SEND OBJ
-		res.json(timeObj)
-		
+		res.json(parsedHeader)
 		
 		});
 		
