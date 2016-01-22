@@ -3,9 +3,19 @@
 <html>
 
 	<head>
-		<title>A Time Handler MicroService</title>
-		
+		<title>A Stock Sharing App</title>
+
+		<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
 		<link href="/public/css/main.css" rel="stylesheet" type="text/css">
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react.js"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.3/react-dom.js"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.28.1/react-bootstrap.min.js"></script>
+    	<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+    	
 	</head>
 
 	<header>
@@ -13,18 +23,14 @@
 	</header>
 
 	<body>
-	<h1> Time Microservice </h1>
-	<p> Send a string with either a UNIX time or human encoded time and I'll give you back both. Just send it to this application http and put your time after a /</p>
-	<br>
-	<p> <b>Example usage:</b> </p>
-	<br>
-	<p>https://timestamp-ms.herokuapp.com/December%2015,%202015</p>
-	<p> https://timestamp-ms.herokuapp.com/1450137600 </p>
-	<br>
-	<p><b>Example output:</b></p>
-	<br>
-	<p>{ "unix": 1450137600, "natural": "December 15, 2015" }</p>
-		
+		<div class="title">
+	 	 <h1> Boredroom Stock Share </h1>
+		</div>
+
+		<div id="stock-container"></div>
+		<script src="/socket.io/socket.io.js"></script>
+		<script type="text/babel" src="controllers/stockHandler.client.js"></script>
+
 	</body>
 
 </html>

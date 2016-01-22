@@ -1,31 +1,42 @@
 'use strict';
 
 var express = require('express');
-var routes = require('./app/routes/index.js');
-var requestLanguage = require('express-request-language');
-var cookieParser = require('cookie-parser');
-
 var app = express();
+//var timeout = require('connect-timeout');
 
+var routes = require('./app/routes/index.js');
+
+
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+//app.use(timeout('1s'));
+
+app.use('/public', express.static(process.cwd() + '/public'));
 
 app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
-app.use('/public', express.static(process.cwd() + '/public'));
-app.use('/common', express.static(process.cwd() + '/app/common'));
 
-//LANGUAGE MODULE
-app.use(cookieParser());
-app.use(requestLanguage({
-  languages: ['en-US', 'zh-CN'],
-  cookie: {
-    name: 'language',
-    options: { maxAge: 24*3600*1000 },
-    url: '/languages/{language}'
-  }
-}));
+
+app.get('/', function(req, res) {
+  res.send('hello world');
+});
+
+
+var stocks = [];
+io.on('connection', function (socket) {
+	console.log("user connected")
+  
+  socket.on('clientStocks', function (data) {
+    console.log(data);
+	stocks.push(data)
+    socket.emit('serverStocks', { stocks });
+  });
+});
 
 routes(app);
 
-var port = process.env.PORT || 8080;
+
+var port = 3000;
 app.listen(port,  function () {
 	console.log('Node.js listening on port ' + port + '...');
 });

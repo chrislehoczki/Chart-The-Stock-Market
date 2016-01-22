@@ -1,205 +1,141 @@
-/********* Fonts **********/
 
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Roboto'), local('Roboto-Regular'), url('../fonts/Roboto-Regular.ttf') format('truetype');
-}
 
-@font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 500;
-  src: local('Roboto Medium'), local('Roboto-Medium'), url('../fonts/Roboto-Medium.ttf') format('truetype');
-}
-
-/****** Main Styling ******/
+/* GENERAL */
 
 body {
-	font-family: 'Roboto', sans-serif;
-	font-size: 16px;
-	margin: 0;
-	padding: 0;
-	text-align: center;
+  text-align: center;
+  font-family: Oswald;
 }
 
-header {
-	color: #00BCD4;
-	height: 56px;
-	margin: 0 0 14px 0;
-	text-align: center;
+.title h1 {
+  font-size: 1.1em;
+  margin: 20px auto;
 }
 
-p {
-	margin: 8px 0 0 0;
+/* INPUT COMPONENT */
+
+.input-holder {
+  margin: 20px auto;
+  width: 800px;
+  text-align: center;
 }
 
-.container p {
-	text-align: center;
-	padding: 0;
+label { 
+  font-size: 1.5em;
 }
 
-/****** Header Styling ******/
-
-header p {
-	margin: 16px 0 5px 0;
+.input {
+  width: 200px;
+  margin: 0px auto;
 }
 
-.menu {
-	text-decoration: none;
-	padding: 6px;
-	margin: 0;
-	color: #727272;
+.stock-buttons {
+  margin: 0px auto;
 }
 
-.menu:visited {
-	color: #727272;
+.stock-button {
+  font-weight: bolder;
+  color: white; 
+  text-shadow: black 0.1em 0.1em 0.2em;
+  margin: 5px;
 }
 
-.menu:hover {
-	color: #FFA000;
+.stock-button:hover {
+  color: white;
 }
 
-.menu:active {
-	color: #FF630D;
+/* ERROR MODAL */
+
+.modal-body {
+  font-size: 20px;
+  text-align: center;
 }
 
-header a ~ p {
-	margin: 0;
-	padding: 0;
-	display: inline;
-	color: #ECEFF1;
+.close-button {
+  margin: 10px;
 }
 
-#display-name {
-	font-weight: 400;
+#x {
+  margin-left: 5px;
+	font-size: 20px;
+	font-weight: bolder;
 }
 
-/****** Login Styling ******/
+/* SVG CONTAINER */
 
-.login {
-	margin: 86px auto 0 auto;
-	text-align: center;
+svg {
+  margin: 0px auto;
+  width: 800px;
 }
 
-#login-btn {
-	width: 225px;
-	padding: 7px 5px;
+.text { 
+  fill: gray;
 }
 
-.btn p {
-	margin: 8px 0 0 0;
-	padding: 0;
+.axis path,
+.axis line {
+	fill: none;
+	stroke: black;
+	shape-rendering: geometricPrecision;
+}
+		
+.axis text {
+  font-size: 11px;
+			}
+
+.title {
+  font-size: 3em;
 }
 
-.btn > img {
-	float: left;
-	margin-left: 10px
+.sub-title {
+  font-size: 2em;
 }
 
-/****** Logo Div Styling ******/
-
-img {
-	margin: 0 auto;
-	display: block;
+.label {
+  font-weight: bolder;
+  font-size: 1.5em;
 }
 
-.clementine-text { /* Styling for the Clementine.js text */
-	padding: 0;
-	margin: -25px 0 0 0;
-	font-weight: 500;
-	font-size: 60px;
-	color: #FFA000;
+div.tooltip, div.detail {   
+  position: absolute;           
+  text-align: center;                
+  padding: 2px;             
+  font: 12px;  
+  color: white;
+  background: black;
+  border: 1px solid black;         
+  pointer-events: none;     
 }
 
-/****** Click Styling ******/
+/* FOOTER */
 
-.btn-container {	/* Styling for the div that contains the buttons */
-	margin: -10px auto 0 auto;
-	text-align: center;
+footer {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  width: 25%;
+  margin: 40px auto;
 }
 
-.btn {	/* Styling for buttons */
-	margin: 0 8px;
-	color: white;
-	background-color: #00BCD4;
-	display: inline-block;
-	border: 0;
-	font-size: 14px;
-	border-radius: 3px;
-	padding: 10px 5px;
-	width: 100px;
-	font-weight: 500;
+footer ul {
+  text-indent: none;
+  list-style-type: none;
+  padding: 3px;
+  margin: 0;
 }
 
-.btn:focus {	/* Remove outline when hovering over button */
-	outline: none;
+footer ul li {
+  display: inline;
+  margin: 20px;
+  
 }
 
-.btn:active {	/* Scale the button down by 10% when clicking on button */
-	transform: scale(0.9, 0.9);
-	-webkit-transform: scale(0.9, 0.9);
-	-moz-transform: scale(0.9, 0.9);
+footer ul li a {
+  text-decoration: none;
+  font-size: 1.5em;
+  color: black;
 }
 
-.btn-delete {	/* Styling for delete button */
-	background-color: #ECEFF1;
-	color: #212121;
+footer ul li a:hover {
+  color: slateblue;
 }
 
-#click-nbr {
-	font-weight: 400;
-}
-
-/****** Profile Styling ******/
-
-.github-profile {
-	width: 350px;
-	height: 200px;
-	border-radius: 3px;
-	margin: 86px auto 0 auto;
-	background-color: #EEE;
-	text-align: center;
-	color: #000;
-}
-
-.github-profile p:first-child {
-	padding-top: 16px;
-}
-
-.github-profile p:nth-child(5) {
-	margin-bottom: 16px
-}
-
-.github-profile p {
-	margin: 0 0 0 16px;
-	text-align: left;
-}
-
-.profile-value {
-	font-weight: 400;
-}
-
-span {
-	font-weight: 500;
-}
-
-.github-profile > img {
-	padding-top: 16px;
-	margin-bottom: 16px;
-}
-
-.github-profile .menu:hover {
-	color: #FFA000;
-}
-
-.github-profile .menu:active {
-	color: #FF630D;
-}
-
-#menu-divide {
-	color: #FFFFFF;
-	display: inline;
-	margin: 0;
-}
