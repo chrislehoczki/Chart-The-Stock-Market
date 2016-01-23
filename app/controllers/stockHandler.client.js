@@ -9,7 +9,7 @@ var Input = ReactBootstrap.Input;
 
 //SOCKET.IO SETUP
 
-var socket = io.connect("https://stock-market2-christoph-phillips.c9users.io/");
+var socket = io.connect('http://localhost:3000');
 
 //FUNCTIONS
 
