@@ -9,7 +9,7 @@ var Input = ReactBootstrap.Input;
 
 //SOCKET.IO SETUP
 console.log(window.location.hostname)
-var socket = io.connect(window.location.hostname);
+var socket = io.connect();
 
 //FUNCTIONS
 
