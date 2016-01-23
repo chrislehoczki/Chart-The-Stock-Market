@@ -7,60 +7,77 @@ var Button  = ReactBootstrap.Button;
 var Modal = ReactBootstrap.Modal;
 var Input = ReactBootstrap.Input;
 
-//SOCKET.IO CODE
+//SOCKET.IO SETUP
+
+var socket = io.connect("https://stock-market2-christoph-phillips.c9users.io/");
+
+//FUNCTIONS
 
 
-  var socket = io.connect("https://stock-market2-christoph-phillips.c9users.io/");
-/*
- socket.on('serverStocks', function (data) {
-   console.log("received data")
- });
- */ 
+//STOCK FILTER
+function filterStocks(stocks, stockName) {
+  
+  return stocks.filter(function(stock) {
+    return stock.name !== stockName;
+  })
+
+}
+
+function getDate(date) {
+  return new Date(date)
+}
+
+function addLabels(height, margin, width, svg, data) {
+  //ADD Y LABEL
+   var yLabel = svg.append("text")
+     .attr("x", 0 - height/2)
+     .attr("y", 0 - margin.left/1.5)
+      .style("text-anchor", "middle")
+      .text("Stock Price ($)")
+      .attr('transform', 'rotate(-90)')
+      .classed("label", true)
+   //ADD X LABEL
+    svg.append("text")
+     .attr("x", width / 2)
+     .attr("y", height + margin.bottom/1.3)
+      .style("text-anchor", "middle")
+      .text("Date")
+      .classed("label", true)
+}
+
+function randomColor() {
+  function random() {
+    return Math.floor((Math.random() * 255));
+  }
+  
+  var color = "rgb("+ random() + "," + random() + "," + random()+ ")"
+  return color;
+}
+
+
 
 //CONTAINER TO HOLD COMPONENTS
 var StockContainer = React.createClass({
 
     getInitialState() {
-      
+     
       return { 
       stocks: [],
     };
 
     },
 
-    componentDidMount() {
-        
-       
-        
-    },
-
-
     updateStocks(stock) {
       var component = this;
-      
-
       socket.on('serverStocks', function (data) {
-      
-      component.setState({ 
-      stocks: data.stocks
-	    });
-	    console.log("stocks")
-      
-      
+          component.setState({stocks: data.stocks});
        });
-    
-    
-
     },
   
     removeStock(stock) {
- 
- 
     socket.emit('removeStock', {stock: stock});
     var stocks = this.state.stocks;
-    
     filterStocks(stocks, stock)
-    
     this.setState({stocks: filterStocks(stocks, stock)})
     },
 
@@ -92,12 +109,8 @@ var InputBox = React.createClass({
   
   
     componentDidMount: function() {
-        console.log(this.props.stocks)
-        
       this.addStock();
-        
     },
-  
   
     close: function() {
       this.setState({showModal: false})
@@ -108,12 +121,9 @@ var InputBox = React.createClass({
     },
 
     keyPress: function(e) {
-
      if (e.charCode === 13) {
      	this.addStock()
      }
-     
-
     },
     
   
@@ -141,11 +151,12 @@ var InputBox = React.createClass({
        var month = date.getMonth() + 1;
        
        
-    var url = "https://www.quandl.com/api/v3/datasets/WIKI/" + stock + ".json?api_key=scg9nFzbjxfysc6spmY3&start_date=2016-" + month + "-01&end_date=2016-" + month + "-30"
+        var url = "https://www.quandl.com/api/v3/datasets/WIKI/" + stock + ".json?api_key=scg9nFzbjxfysc6spmY3&start_date=2016-" + month + "-01&end_date=2016-" + month + "-30"
     
         $.getJSON(url, function(data) {    
           
         })
+        //IF SUCCESS
         .success(function(data) {
           var december = data.dataset.data;
           var closingObj = {};
@@ -155,17 +166,11 @@ var InputBox = React.createClass({
             december.map(function(data) {
               closingObj.data.push([data[0], data[4]])
             });
-         
-         
-         console.log(this.props.stocks)
-      
         this.props.updateStocks(closingObj)
-         console.log(closingObj)
          socket.emit('clientStocks', {stock: closingObj});
-         
-         
-          
           }.bind(this))
+          
+          //IF ERR
         .error(function() {
           this.setState({modalText: "No Data Found for That Stock, Please Try Again"})
           this.setState({showModal:true})
@@ -198,7 +203,6 @@ var InputBox = React.createClass({
             }.bind(this))}
 
       </div>
-      
       
       <ErrorModal show={this.state.showModal} onHide={this.close} text={this.state.modalText}/>
       </div>
@@ -323,46 +327,47 @@ var x = d3.time.scale().domain([minDate, maxDate]).range([0, width]);
       
     
       lineGraph.attr("stroke-dasharray", totalLength + " " + totalLength)
-  .attr("stroke-dashoffset", 0-totalLength)
-  .transition()
-    .delay(1000)
-    .duration(2000)
-    .ease("linear")
-    .attr("stroke-dashoffset", 0);
-  });
+        .attr("stroke-dashoffset", 0-totalLength)
+        .transition()
+        .delay(1000)
+        .duration(2000)
+        .ease("linear")
+        .attr("stroke-dashoffset", 0);
+        });
     
      //CREATE TOOLTIP
-   var tooltip = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0)
+    var tooltip = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0)
   
    //CREATE CIRCLES
-var scatterPlotGroups = svg.selectAll(".scatterPlotGroup")
-    .data(stocks)
-    .enter().append("g")
-    .attr("class", "scatterPlotGroup");
+    var scatterPlotGroups = svg.selectAll(".scatterPlotGroup")
+        .data(stocks)
+        .enter().append("g")
+        .attr("class", "scatterPlotGroup");
 
-var circles = scatterPlotGroups.selectAll("circle")
-    .data(function(d) { return d.data; })
-    .enter().append("circle")
-    .attr("cx", function(d) { return x(getDate(d[0])); })
-    .attr("cy", function(d) { return y(d[1]) + 1000 })
-    .attr("r", 3)
-    .attr("fill", "black")
+    var circles = scatterPlotGroups.selectAll("circle")
+        .data(function(d) { return d.data; })
+        .enter().append("circle")
+        .attr("cx", function(d) { return x(getDate(d[0])); })
+        .attr("cy", function(d) { return y(d[1]) + 1000 })
+        .attr("r", 3)
+        .attr("fill", "black")
 
-circles.
-    transition()
-    .duration(1000)
-    .attr("cy", function(d) { return y(d[1])});
+    circles.
+        transition()
+        .duration(1000)
+        .attr("cy", function(d) { return y(d[1])});
 
 //TOOL TIP ANIMATION
-circles.on("mouseover", function (d) {
+    circles.on("mouseover", function (d) {
 
-  tooltip.transition()
-        .duration(200)
-        .style("opacity", 0.8)
-  tooltip.html("Date: " + d[0] + "<br>Stock: " + d[1])
-        .style("left", (d3.event.pageX + 10) + "px")     
-        .style("top", (d3.event.pageY - 28) + "px");    
-   }) 
+      tooltip.transition()
+            .duration(200)
+            .style("opacity", 0.8)
+            
+      tooltip.html("Date: " + d[0] + "<br>Stock: " + d[1])
+            .style("left", (d3.event.pageX + 10) + "px")     
+            .style("top", (d3.event.pageY - 28) + "px");    
+       }) 
    
    circles.on("mouseout", function(d) {
      tooltip.transition()
@@ -377,7 +382,7 @@ circles.on("mouseover", function (d) {
         .call(xAxis)
         .classed("axis", true)
   
-  svg.append("g")
+    svg.append("g")
         .attr("class", "axis")
         .call(yAxis)
         .classed("axis", true)
@@ -385,7 +390,7 @@ circles.on("mouseover", function (d) {
         svg.append("path")
                   .attr("d", "M 0 0 L 0 " + height +  " L " + width + " " + height).classed("axes", true)
   
- addLabels(height, margin, width, svg, stocks);
+    addLabels(height, margin, width, svg, stocks);
     
   },
   
@@ -403,45 +408,3 @@ circles.on("mouseover", function (d) {
 //RENDER CONTAINER
 
 ReactDOM.render(<StockContainer />, document.getElementById("stock-container"));
-
-//STOCK FILTER
-function filterStocks(stocks, stockName) {
-  
-  return stocks.filter(function(stock) {
-    return stock.name !== stockName;
-  })
-
-}
-
-function getDate(date) {
-  return new Date(date)
-}
-
-function addLabels(height, margin, width, svg, data) {
-  //ADD Y LABEL
-   var yLabel = svg.append("text")
-     .attr("x", 0 - height/2)
-     .attr("y", 0 - margin.left/1.5)
-      .style("text-anchor", "middle")
-      .text("Stock Price ($)")
-      .attr('transform', 'rotate(-90)')
-      .classed("label", true)
-   //ADD X LABEL
-    svg.append("text")
-     .attr("x", width / 2)
-     .attr("y", height + margin.bottom/1.3)
-      .style("text-anchor", "middle")
-      .text("Date")
-      .classed("label", true)
- 
-}
-
-function randomColor() {
-  
-  function random() {
-    return Math.floor((Math.random() * 255));
-  }
-  
-  var color = "rgb("+ random() + "," + random() + "," + random()+ ")"
- return color;
-}

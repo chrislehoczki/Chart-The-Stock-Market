@@ -22,18 +22,20 @@ var stocksArr = [];
 
 io.on('connection', function (socket) {
 	console.log("user connected")
+	//SEND SERVER STOCKS TO NEW USER
 	io.emit('serverStocks', { stocks: stocksArr });
 
+    //ADD STOCKS
     socket.on('clientStocks', function (data) {
   
-    //CHECK IF STOCK EXISTS ON SERVER ARRAY
-    console.log("received client stock")
-    var stockExists = false;
-    stocksArr.map(function(stock) {
-        if (stock.name === data.stock.name) {
-          stockExists = true; 
-          return;
-        }
+        //CHECK IF STOCK EXISTS ON SERVER ARRAY
+        console.log("received client stock")
+        var stockExists = false;
+        stocksArr.map(function(stock) {
+            if (stock.name === data.stock.name) {
+              stockExists = true; 
+              return;
+            }
         
     });
     
@@ -48,6 +50,7 @@ io.on('connection', function (socket) {
     
   });
   
+  //REMOVE STOCKS
    socket.on('removeStock', function (data) { 
        
        //REMOVE STOCK IF EXISTS IN ARRAY
