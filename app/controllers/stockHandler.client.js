@@ -8,8 +8,8 @@ var Modal = ReactBootstrap.Modal;
 var Input = ReactBootstrap.Input;
 
 //SOCKET.IO SETUP
-
-var socket = io.connect('http://localhost:3000');
+var port = process.env.PORT || 8080;
+var socket = io.connect('http://localhost:' + port);
 
 //FUNCTIONS
 
