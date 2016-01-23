@@ -17,6 +17,13 @@ server.listen(port,  function () {
 	console.log('Node.js listening on port ' + port + '...');
 });
 
+
+// Set our transports
+io.configure(function () { 
+  io.set("transports", ["xhr-polling"]); 
+  io.set("polling duration", 20); 
+});
+
 var stocksArr = [];
 
 
