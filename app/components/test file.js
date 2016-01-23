@@ -86,7 +86,7 @@ var InputBox = React.createClass({
     return { 
       showModal: false,
       modalText: "",
-      stock: "MSFT"
+      stock: "AAPL"
     };
     },
   
@@ -161,7 +161,7 @@ var InputBox = React.createClass({
       
         this.props.updateStocks(closingObj)
          console.log(closingObj)
-         socket.emit('clientStocks', {stock: closingObj});
+         //socket.emit('clientStocks', {stock: closingObj});
          
          
           
