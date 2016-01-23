@@ -12,7 +12,7 @@ app.use('/components', express.static(process.cwd() + '/app/components'));
 
 routes(app);
 
-var port = process.env.PORT || 5000;
+var port = process.env.PORT || 3000;
 server.listen(port,  function () {
 	console.log('Node.js listening on port ' + port + '...');
 });
