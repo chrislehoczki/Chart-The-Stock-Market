@@ -9,7 +9,7 @@ var Input = ReactBootstrap.Input;
 
 //SOCKET.IO SETUP
 var port = 5000;
-var socket = io.connect('http://localhost:' + port);
+var socket = io.connect('https://localhost:' + port);
 
 //FUNCTIONS
 
