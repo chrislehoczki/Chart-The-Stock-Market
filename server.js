@@ -19,9 +19,12 @@ server.listen(port,  function () {
 
 
 // Set our transports
-
+/*
+io.configure(function () { 
   io.set("transports", ["xhr-polling"]); 
   io.set("polling duration", 20); 
+});
+*/
 
 var stocksArr = [];
 
