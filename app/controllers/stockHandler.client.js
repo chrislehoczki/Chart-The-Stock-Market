@@ -151,7 +151,7 @@ var InputBox = React.createClass({
        var month = date.getMonth() + 1;
        
        
-        var url = "https://www.quandl.com/api/v3/datasets/WIKI/" + stock + ".json?api_key=scg9nFzbjxfysc6spmY3&start_date=2016-" + month + "-01&end_date=2016-" + month + "-30"
+        var url = "https://www.quandl.com/api/v3/datasets/WIKI/" + stock + ".json?api_key=scg9nFzbjxfysc6spmY3&start_date=2016-" + month + "-01&end_date=2016-" + month + "-28"
     
         $.getJSON(url, function(data) {    
           
