@@ -148,16 +148,21 @@ var InputBox = React.createClass({
      if (stockNotAdded) {
      
        var date = new Date();
-       var month = date.getMonth() + 1;
+       var month = date.getMonth();
+       var year = date.getFullYear();
+
        
+       console.log("month: " + month)
+       console.log("year: " + year)
        
-        var url = "https://www.quandl.com/api/v3/datasets/WIKI/" + stock + ".json?api_key=scg9nFzbjxfysc6spmY3&start_date=2016-" + month + "-01&end_date=2016-" + month + "-28"
+        var url = "https://www.quandl.com/api/v3/datasets/WIKI/" + stock + ".json?api_key=scg9nFzbjxfysc6spmY3&start_date=" + year + "-" + month + "-01&end_date=" + year + "-" + month + "-28"
     
         $.getJSON(url, function(data) {    
           
         })
         //IF SUCCESS
         .success(function(data) {
+          console.log(data)
           var december = data.dataset.data;
           var closingObj = {};
           closingObj.name = stock;
